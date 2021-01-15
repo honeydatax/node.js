@@ -5,5 +5,4 @@ http.createServer(function (req, res) {
    res.end('PUB: visit you site:');
 }).listen(8080);
 
-// Console will print the message
 console.log('pub server');
