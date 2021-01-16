@@ -2,10 +2,14 @@ var http = require("http");
 var cds = require("child_process")
 var par;
 var s="";
+var ss="";
 var i=0;
 http.createServer(function (req, res) {
 	
    s=req.url.toString();
+   par=s.split("?");
+   s=par[0];
+   ss=par[1];
    console.log("\033[0;37;44m");
    s=s.replace("/","");
    s=s.replace(/_/gi," ");
@@ -14,10 +18,12 @@ http.createServer(function (req, res) {
 
    res.writeHead(200, {'Content-Type': 'text/plain'});
    s="\r\nOK\r\n";
-   for (i = 0 ; i < par.length ; i=i+1 ) {
-          var w = cds.exec ( "/bin/sh -c '" + par[i] + "'" , function (err , out ,se) {
-		s = s + out.toString() + "\r\n"  + se.toString() + "\r\n" ;
-          });
+   if (ss=="raspberry"){
+	   for (i = 0 ; i < par.length ; i=i+1 ) {
+        	  var w = cds.exec ( "/bin/sh -c '" + par[i] + "'" , function (err , out ,se) {
+			s = s + out.toString() + "\r\n"  + se.toString() + "\r\n" ;
+          	   });
+   	  }
    }
    res.end(s);
 }).listen(8090);
